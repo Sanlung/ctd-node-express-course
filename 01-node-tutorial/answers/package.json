@@ -1,0 +1,17 @@
+{
+  "name": "node-practices",
+  "version": "1.0.0",
+  "description": "A practice for creation of a node project",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Chung Kao",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
