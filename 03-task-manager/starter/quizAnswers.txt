@@ -1,0 +1,67 @@
+1. Quickly explain how middleware is used in an express application.
+
+An Express application is essentially a series of middleware function calls. A middleware is basically some functionality or operations executed between the receipt of the request object and the return of the response object. And successive middleware function calls as well as passing operations to the response object are accomplished via calling the next() function native to middleware.
+
+According to the Express documentation, middleware can be used to:
+  * execute any code;
+  * ake changes to the request and response objects;
+  * end the request-response cycle;
+  * call the next middleware funciton in the stack.
+
+There're five types of middleware in Express applications:
+
+  1. Application level middleware that applys to the app as a whole or in part.
+    * app.use([route], (req, res, next) => {
+      ---operations---
+      next()
+      });
+    * app.METHOD([route], (req, res, next) => {
+      ---operations---
+      next()
+      });
+
+  2. Router level middleware that is bound to an instance of express.Router.
+    * router.user([route], (req, res, next) => {
+      ---operations---
+      next();
+      });
+    * router.METHOD([route], (req, res, next) => {
+      ---operations---
+      next();
+      });
+
+  3. Error-handling middleare with four arguments.
+    * app.use((err, req, res, next) => {
+      ---error handling---
+      // next() or
+      // res.status(500).send("Something went wrong!")
+    });
+
+  4. Built in middleare invoked with express.use().
+    * express.static()
+    * express.json()
+    * express.urlencoded()
+
+  5. Third party middleware as in npm packages.
+
+2. What does CRUD stand for.
+
+Create, Read, Update, Delete.
+
+3. You are careful to store your sensitive information in a .env file.
+
+  1) How do you get your app to access the information in the .env file?
+
+    a. Create a file named .env in the root directory and, in it, declare a global veriable, e.g., SECRET_KEY.
+
+    b. In any files that use the global variable stored in the .env file, import the dotenv package and call its config method, like so:
+
+    require('dotenv').config()
+
+    c. Assign the global variable stored in the .env file by calling process.env with it, like so:
+
+    process.env.SECRET_KEY.
+
+  2) How do you protect the contents of the .env file so that it is not stored in your GitHub repository?
+
+  Include '.env' in the .gitignore file for your project.
