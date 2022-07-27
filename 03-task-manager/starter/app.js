@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const tasks = require("./routes/tasks");
+const notFound = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 const connectDB = require("./db/connect");
 require("dotenv").config();
 
@@ -9,19 +11,14 @@ app.use(express.static("./public"));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-// routes
-app.get("/hello", (req, res) => res.send("Task Manager App"));
-
-// app.get("/api/v1/tasks");
-// app.post("/api/v1/tasks");
-// app.get("/api/v1/tasks/:id");
-// app.patch("/api/v1/tasks/:id");
-// app.delete("/api/v1/tasks/:id");
+// aroutes
 app.use("/api/v1/tasks", tasks);
+app.use(notFound);
+app.use(errorHandlerMiddleware);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const start = async () => {
+const startApp = async () => {
   try {
     await connectDB(process.env.MONGODB_URL);
     app.listen(port, () => console.log(`Server started at port ${port}...`));
@@ -30,4 +27,4 @@ const start = async () => {
   }
 };
 
-start();
+startApp();

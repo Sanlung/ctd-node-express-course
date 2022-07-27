@@ -1,0 +1,30 @@
+1. In this lesson, you created middleware function called asyncWrapper. Why?
+
+To provide for code reusability and reduce redundancy in error handling. Each action in the app's controllers (./controllers/tasks.js) used to have a try-catch block to handle errors within the respective controller functions. The asyncWrapper function (./middleware/async.js) unifies error handling and sets it up for the errorHandlerMiddleware function (./middleware/error-handler.js) to handle errors in a centralized way.
+
+2. If the getTask function is in a file in which the CustomAPIError(msg, statusCode) class is declared or imported, then it'd be:
+
+  const getTask = asyncWrapper(async (req, res, next) => {
+    const {id: taskId} = req.params;
+    const task = await Task.findeById(taskId);
+    if (!task) {
+      const error = new CustomAPIError(`No task with id : ${taskId}`, 404)
+      return next(error);
+    }
+    res.status(200).json({task});
+  });
+
+In the tutorial, however, the lecturer has also created the following function:
+
+  const createCustomError = (msg, statusCode) => new CustomAPIError(msg, statusCode);
+
+If the createCustomError function is declared or imported in the file in which the getTask function is in, then it'd be:
+
+  const getTask = asyncWrapper(async (req, res, next) => {
+    const {id: taskId} = req.params;
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return next(createCustomError(`No task with id : ${taskId}`, 404));
+    }
+    res.status(200).json({task});
+  });
