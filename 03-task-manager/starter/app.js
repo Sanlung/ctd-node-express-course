@@ -11,7 +11,7 @@ app.use(express.static("./public"));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-// aroutes
+// routes
 app.use("/api/v1/tasks", tasks);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
@@ -20,7 +20,7 @@ const port = process.env.PORT || 3000;
 
 const startApp = async () => {
   try {
-    await connectDB(process.env.MONGODB_URL);
+    await connectDB(process.env.MONGODB_URI);
     app.listen(port, () => console.log(`Server started at port ${port}...`));
   } catch (err) {
     console.log(err);
